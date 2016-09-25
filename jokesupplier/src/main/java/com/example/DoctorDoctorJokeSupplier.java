@@ -2,77 +2,51 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import static com.example.DoctorDoctorJoke.DoctorDoctorBuilder.openingLine;
+import static com.example.DoctorDoctorJoke.DoctorDoctorBuilder.withActors;
+import static com.example.Joke.ACTOR_ONE;
 
-public final class DoctorDoctorJokeSupplier implements JokeSupplier {
+final class DoctorDoctorJokeSupplier extends BaseJokeSupplier {
 
-    private final List<Joke> doctorDoctorJokes;
-    private final Random random;
+    private static final String[] DEFAULT_ACTOR_NAMES = new String[] { "Patient", "Doctor" };
 
-    public DoctorDoctorJokeSupplier() {
-        doctorDoctorJokes = buildJokes();
-        random = new Random();
+    DoctorDoctorJokeSupplier() {
+        super();
     }
 
     @Override
-    public Joke getJoke() {
-        return doctorDoctorJokes.get(random.nextInt(getJokeCount()));
-    }
-
-    @Override
-    public Joke getJoke(int index) {
-        if (index < 0) {
-            index = 0;
-        } else if (index > getJokeCount()) {
-            index = getJokeCount() - 1;
-        }
-        return doctorDoctorJokes.get(index);
-    }
-
-    @Override
-    public List<? extends Joke> getJokes() {
-        return doctorDoctorJokes;
-    }
-
-    @Override
-    public int getJokeCount() {
-        return doctorDoctorJokes.size();
-    }
-
-    private List<Joke> buildJokes() {
+    List<Joke> buildJokes() {
 
         List<Joke> jokes = new ArrayList<>();
 
-        jokes.add(
-                openingLine("Some days I feel like a tepee, and others like a wig-wam!")
+        jokes.add(withActors(DEFAULT_ACTOR_NAMES)
+                .openingLine("Some days I feel like a tepee, and others like a wig-wam!")
                 .punchLine("You're two tents.")
         );
-        jokes.add(
-                openingLine("I have a split personality.")
+        jokes.add(withActors(DEFAULT_ACTOR_NAMES)
+                .openingLine("I have a split personality.")
                 .punchLine("Then you'd both better sit down.")
         );
-        jokes.add(
-                openingLine("I keep seeing double.")
-                .line("You'd better sit down on the couch.")
-                .punchLine("Which one?"))
-        ;
-        jokes.add(
-                openingLine("I keep thinking I'm a frog")
-                .line("And what's wrong with that?")
-                .punchLine("I think I'm going to croak!")
+        jokes.add(withActors(DEFAULT_ACTOR_NAMES)
+                .openingLine("I keep seeing double.")
+                .addNewLine(Line.build(Joke.ACTOR_TWO, "You'd better sit down on the couch."))
+                .punchLine(Line.build(Joke.ACTOR_ONE, "Which one?"))
         );
-        jokes.add(
-                openingLine("I think I'm a vampire!")
+        jokes.add(withActors(DEFAULT_ACTOR_NAMES)
+                .openingLine("I keep thinking I'm a frog")
+                .addNewLine(Line.build(Joke.ACTOR_TWO, "And what's wrong with that?"))
+                .punchLine(Line.build(ACTOR_ONE, "I think I'm going to croak!"))
+        );
+        jokes.add(withActors(DEFAULT_ACTOR_NAMES)
+                .openingLine("I think I'm a vampire!")
                 .punchLine("Necks please!")
         );
-        jokes.add(
-                openingLine("I feel like a pair of curtains!")
+        jokes.add(withActors(DEFAULT_ACTOR_NAMES)
+                .openingLine("I feel like a pair of curtains!")
                 .punchLine("Pull yourself together!")
         );
-        jokes.add(
-                openingLine("My son swallowed a roll of film!")
+        jokes.add(withActors(DEFAULT_ACTOR_NAMES)
+                .openingLine("My son swallowed a roll of film!")
                 .punchLine("Let's hope nothing develops!")
         );
 
