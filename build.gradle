@@ -12,6 +12,24 @@ buildscript {
     }
 }
 
+task runAppEngineAndConnectedTests {
+    dependsOn(['startServer', 'runConnectedTests', 'stopServer'])
+}
+
+task startServer(dependsOn: ':jokebackend:appengineRun'){
+    evaluationDependsOn(':jokebackend')
+    project(':jokebackend').appengine.daemon = true
+}
+
+task runConnectedTests(dependsOn: ':app:connectedAndroidTest') {
+    mustRunAfter 'startServer'
+}
+
+task stopServer(dependsOn: ':jokebackend:appengineStop') {
+    mustRunAfter'runConnectedTests'
+}
+
+
 allprojects {
     repositories {
         jcenter()
