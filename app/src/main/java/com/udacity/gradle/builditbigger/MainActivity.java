@@ -7,26 +7,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.JokeSupplier;
-import com.example.JokeSupplier.Factory;
-import com.example.JokeUtils;
-
+import com.example.tom.myapplication.jokebackend.myApi.model.JokeWrapper;
 import com.github.ppartisan.jokeviewer.JokeViewActivity;
+import com.udacity.gradle.builditbigger.EndpointsAsyncTask.JokeType;
+import com.udacity.gradle.builditbigger.EndpointsAsyncTask.OnJokeReady;
 
-import static com.example.JokeSupplier.JokeCategory.*;
+import java.lang.ref.WeakReference;
 
+import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.DOCTOR_DOCTOR_JOKE;
+import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnJokeReady {
 
-    private JokeSupplier supplier;
+    private EndpointsAsyncTask task = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        supplier = Factory.getJokeSupplier(KNOCK_KNOCK);
-
     }
 
     @Override
@@ -48,9 +46,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        final String jokeString = JokeUtils.toParagraphWithActors(supplier.getJoke(), "Amy", "Jez");
-        Intent jokeActivityIntent = JokeViewActivity.buildJokeViewActivityIntent(this, jokeString);
-        startActivity(jokeActivityIntent);
+        launchEndPointsAsyncTask(DOCTOR_DOCTOR_JOKE, "Robert Mugabe", "An Irishman", "Julian Barrett");
+    }
+
+    @Override
+    public void onJokeReady(JokeWrapper wrapper) {
+        Intent jokeViewActivityIntent = JokeViewActivity.buildJokeViewActivityIntent(
+                this, wrapper.getParagraphedJokeWithActors()
+        );
+        task = null;
+        startActivity(jokeViewActivityIntent);
+    }
+
+    private void launchEndPointsAsyncTask(@JokeType int jokeType, String... actors) {
+        if (task == null) {
+            task = new EndpointsAsyncTask(new WeakReference<OnJokeReady>(this), jokeType);
+            task.execute(actors);
+        }
     }
 
 }

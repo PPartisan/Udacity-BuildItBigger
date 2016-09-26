@@ -1,9 +1,9 @@
 package com.example;
 
-public final class Line {
+final class Line {
 
-    public final int actorId;
-    public final String text;
+    final int actorId;
+    final String text;
 
     private Line(int actorId, String text) {
         this.actorId = actorId;
