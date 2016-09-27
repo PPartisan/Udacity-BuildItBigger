@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="start|center_vertical"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:id="@+id/add_name_list_row_text" />
+    
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_weight="0"
+        android:id="@+id/add_names_list_row_delete"
+        android:src="@drawable/ic_delete_white_24dp"
+        android:tint="@color/accent"
+        android:layout_gravity="center"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/andf_list_row_delete_content_desc" />
+
+</LinearLayout>

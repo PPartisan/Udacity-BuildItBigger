@@ -27,7 +27,7 @@ import static com.example.JokeSupplier.JokeCategory.KNOCK_KNOCK;
                 packagePath = ""
         )
 )
-public class MyEndpoint {
+public class JokeEndpoint {
 
     private JokeSupplier supplier;
 

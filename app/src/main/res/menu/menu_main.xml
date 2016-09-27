@@ -1,10 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_switch_joke_type"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="@string/action_switch_joke_type"
+        android:icon="@drawable/ic_switch_camera_white_24dp"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_add_names"
+        android:orderInCategory="100"
+        android:title="@string/action_add_name"
+        android:icon="@drawable/ic_launch_white_24dp"
+        app:showAsAction="ifRoom" />
+
 </menu>

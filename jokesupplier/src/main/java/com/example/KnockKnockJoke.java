@@ -26,7 +26,7 @@ final class KnockKnockJoke extends BaseJoke {
         KnockKnockBuilder who(String text) {
 
             if (text == null) {
-                throw new IllegalArgumentException("'addNewLine' must not be null");
+                throw new IllegalArgumentException("'text' must not be null");
             }
 
             addLine(Line.build(ACTOR_ONE, text));
@@ -46,9 +46,7 @@ final class KnockKnockJoke extends BaseJoke {
         }
 
         KnockKnockJoke punchLine(Line line) {
-            if (line == null) {
-                throw new IllegalArgumentException("'addNewLine' must not be null");
-            }
+            checkToThrowLineNullException(line);
             addLine(line);
             return new KnockKnockJoke(lines, actorNames);
         }

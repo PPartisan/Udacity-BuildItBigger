@@ -32,4 +32,10 @@ abstract class BaseJoke implements Joke {
         return Arrays.toString(lines.toArray());
     }
 
+    static void checkToThrowLineNullException(Line line) {
+        if (line == null) {
+            throw new IllegalArgumentException("'line' must not be null");
+        }
+    }
+
 }

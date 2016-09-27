@@ -11,18 +11,27 @@ import com.example.tom.myapplication.jokebackend.myApi.model.JokeWrapper;
 import com.github.ppartisan.jokeviewer.JokeViewActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.udacity.gradle.builditbigger.EndpointsAsyncTask.OnJokeReady;
+import com.udacity.gradle.builditbigger.FetchNameModelsTask.Callbacks;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.DOCTOR_DOCTOR_JOKE;
+import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
 
-public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.OnJokeReady {
+public class MainActivity extends AppCompatActivity implements OnJokeReady, Callbacks {
 
     private static final String TEST_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712";
 
     private InterstitialAd mInterstitialAd;
     private EndpointsAsyncTask task = null;
     private View mProgressView;
+
+    private AddNamesDialogFragment mAddNamesDialog;
+
+    private ArrayList<NameModel> mNameModels = new ArrayList<>();
+    private FetchNameModelsTask fetchNameModelsTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
         mProgressView = findViewById(R.id.progress);
         mProgressView.setVisibility(View.GONE);
+
+        if(fetchNameModelsTask == null) {
+            fetchNameModelsTask = new FetchNameModelsTask(new WeakReference<Callbacks>(this));
+            fetchNameModelsTask.execute(this);
+        }
 
     }
 
@@ -61,9 +75,13 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_add_names:
+                launchAddNamesDialog(mNameModels);
+                break;
+            case R.id.action_switch_joke_type:
+                AppUtils.buildUpgradeToViewDoctorDoctorJokesToast(this).show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -73,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
-            launchEndPointsAsyncTask(DOCTOR_DOCTOR_JOKE);
+            launchEndPointsAsyncTask(KNOCK_KNOCK_JOKE, NameModel.namesToStringArray(mNameModels));
         }
     }
 
@@ -89,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
 
     private void launchEndPointsAsyncTask(@EndpointsAsyncTask.JokeType int jokeType, String... actors) {
         if (task == null) {
-            task = new EndpointsAsyncTask(new WeakReference<EndpointsAsyncTask.OnJokeReady>(this), jokeType);
+            task = new EndpointsAsyncTask(new WeakReference<OnJokeReady>(this), jokeType);
             task.execute(actors);
             mProgressView.setVisibility(View.VISIBLE);
         }
@@ -101,11 +119,29 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
                 .build();
     }
 
+    @Override
+    public void onNameModelsReady(ArrayList<NameModel> nameModels) {
+        mNameModels = nameModels;
+        if(mAddNamesDialog != null) mAddNamesDialog.setNameModels(nameModels);
+    }
+
     private class AdListener extends com.google.android.gms.ads.AdListener {
         @Override
         public void onAdClosed() {
-            launchEndPointsAsyncTask(DOCTOR_DOCTOR_JOKE, "Tom", "Someone less cool than Tom");
+            launchEndPointsAsyncTask(KNOCK_KNOCK_JOKE, NameModel.namesToStringArray(mNameModels));
         }
     }
+
+    private void launchAddNamesDialog(ArrayList<NameModel> nameModels) {
+
+        mAddNamesDialog = (AddNamesDialogFragment)
+                getSupportFragmentManager().findFragmentByTag(AddNamesDialogFragment.TAG);
+
+        if (mAddNamesDialog == null || mAddNamesDialog.isHidden()) {
+            mAddNamesDialog = AddNamesDialogFragment.newInstance(nameModels);
+            mAddNamesDialog.show(getSupportFragmentManager(), AddNamesDialogFragment.TAG);
+        }
+    }
+
 
 }

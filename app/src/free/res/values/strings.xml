@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Toolbar -->
+    <string name="upgrade_to_view_doctor_doctor_jokes">
+        Upgrade to the paid version to view Doctor Doctor Jokes!
+    </string>
+
+</resources>

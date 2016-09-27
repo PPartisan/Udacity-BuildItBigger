@@ -20,7 +20,6 @@ final class DoctorDoctorJoke extends BaseJoke {
         }
 
         static DoctorDoctorBuilder withActors(String[] actorNames) {
-            System.out.print("Actor Names length: " + actorNames.length);
             return new DoctorDoctorBuilder(actorNames).getBaseJoke();
         }
 
@@ -29,18 +28,13 @@ final class DoctorDoctorJoke extends BaseJoke {
         }
 
         DoctorDoctorBuilder openingLine(Line line) {
-            if (line == null) {
-                throw new IllegalArgumentException("'addNewLine' must not be null");
-            }
+            checkToThrowLineNullException(line);
             addToLine(line);
             return this;
         }
 
         DoctorDoctorBuilder addToLine(Line line) {
-            if (line == null) {
-                throw new IllegalArgumentException("'addNewLine' must not be null");
-            }
-
+            checkToThrowLineNullException(line);
             final int lastIndex = lines.size() - 1;
             final Line lastEntry = lines.get(lastIndex);
             String lastEntryText = lastEntry.text;
@@ -56,9 +50,7 @@ final class DoctorDoctorJoke extends BaseJoke {
         }
 
         DoctorDoctorBuilder addNewLine(Line line) {
-            if (line == null) {
-                throw new IllegalArgumentException("'addNewLine' must not be null");
-            }
+            checkToThrowLineNullException(line);
             lines.add(line);
             return this;
         }
@@ -68,9 +60,7 @@ final class DoctorDoctorJoke extends BaseJoke {
         }
 
         DoctorDoctorJoke punchLine(Line line) {
-            if (line == null) {
-                throw new IllegalArgumentException("'addNewLine' must not be null");
-            }
+            checkToThrowLineNullException(line);
             lines.add(line);
             return new DoctorDoctorJoke(lines, actorNames);
         }

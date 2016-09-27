@@ -2,6 +2,19 @@
     <string name="app_name">Build it Bigger</string>
     <string name="instructions">Press the button for a delicious joke!</string>
     <string name="button_text">Tell Joke</string>
-    <string name="action_settings">Settings</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!-- Toolbar -->
+    <string name="action_switch_joke_type">Switch Joke Type</string>
+    <string name="action_add_name">Add Custom Names</string>
+    <string name="now_showing_dd_jokes">Now Showing Doctor Doctor Jokes!</string>
+    <string name="now_showing_kk_jokes">Now Showing Knock Knock Jokes!</string>
+
+    <!-- Add Names Dialog Fragment -->
+    <string name="abdf_title">Add Custom Names</string>
+    <string name="abdf_button_text">Add Name</string>
+    <string name="andf_list_row_delete_content_desc">Delete Name</string>
+    <string name="andf_list_hint">Add A Custom Name</string>
+    <string name="andf_empty_view_text">No names yet!</string>
+
 </resources>
