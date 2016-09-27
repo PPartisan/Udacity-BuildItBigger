@@ -11,6 +11,7 @@ import com.example.tom.myapplication.jokebackend.myApi.model.JokeWrapper;
 import com.github.ppartisan.jokeviewer.JokeViewActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.udacity.gradle.builditbigger.EndpointsAsyncTask.JokeType;
 import com.udacity.gradle.builditbigger.EndpointsAsyncTask.OnJokeReady;
 import com.udacity.gradle.builditbigger.FetchNameModelsTask.Callbacks;
 
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
 
     private ArrayList<NameModel> mNameModels = new ArrayList<>();
     private FetchNameModelsTask fetchNameModelsTask = null;
+
+    //No option to change joke type on free version
+    private final @JokeType int mJokeType = EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
-            launchEndPointsAsyncTask(KNOCK_KNOCK_JOKE, NameModel.namesToStringArray(mNameModels));
+            launchEndPointsAsyncTask(mJokeType, NameModel.namesToStringArray(mNameModels));
         }
     }
 
@@ -105,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
         startActivity(jokeViewActivityIntent);
     }
 
-    private void launchEndPointsAsyncTask(@EndpointsAsyncTask.JokeType int jokeType, String... actors) {
+    private void launchEndPointsAsyncTask(@JokeType int jokeType, String... actors) {
         if (task == null) {
             task = new EndpointsAsyncTask(new WeakReference<OnJokeReady>(this), jokeType);
             task.execute(actors);
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
     private class AdListener extends com.google.android.gms.ads.AdListener {
         @Override
         public void onAdClosed() {
-            launchEndPointsAsyncTask(KNOCK_KNOCK_JOKE, NameModel.namesToStringArray(mNameModels));
+            launchEndPointsAsyncTask(mJokeType, NameModel.namesToStringArray(mNameModels));
         }
     }
 
