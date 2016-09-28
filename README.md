@@ -1,3 +1,11 @@
+# Additional Notes
+
+Submission for the fourth project in Udacity's Android Developer Nanodegree program, **Build It Bigger**.
+
+* The `AdRequest` used for the `AdView` in the `free` flavor of this app only has the emulator added as a test device. To add a physical device, change the field [DebugKeys.EXTRA_TEST_DEVICE_ID](https://github.com/PPartisan/Udacity-BuildItBigger/blob/master/app/src/main/java/com/udacity/gradle/builditbigger/DebugKeys.java) from `"null"` to a device id, or add it manually to the `AdRequest.Builder` instances in [`MainActivity`](https://github.com/PPartisan/Udacity-BuildItBigger/blob/master/app/src/free/java/com/udacity/gradle/builditbigger/MainActivity.java) and [`MainActivityFragment`](https://github.com/PPartisan/Udacity-BuildItBigger/blob/master/app/src/free/java/com/udacity/gradle/builditbigger/MainActivityFragment.java).
+* There is an option to switch between "Doctor Doctor" and "Knock Knock" jokes in the paid flavor only, via a button on the `Toolbar`.
+* Both flavors offer the option to personalise jokes by adding custom names via a button on the `Toolbar`. 
+
 # Gradle for Android and Java Final Project
 
 In this project, you will create an app with multiple flavors that uses
