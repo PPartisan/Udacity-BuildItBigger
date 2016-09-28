@@ -1,4 +1,4 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,14 +7,19 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.udacity.gradle.builditbigger.util.DataUtils;
+import com.udacity.gradle.builditbigger.data.NameModel;
+import com.udacity.gradle.builditbigger.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
-class AddNamesAdapter extends RecyclerView.Adapter<AddNamesAdapter.ViewHolder> {
+public class AddNamesAdapter extends RecyclerView.Adapter<AddNamesAdapter.ViewHolder> {
 
     private List<NameModel> mNameModels;
 
-    AddNamesAdapter(List<NameModel> nameModels) {
-        mNameModels = nameModels;
+    public AddNamesAdapter(List<NameModel> nameModels) {
+        mNameModels = (nameModels == null) ? new ArrayList<NameModel>() : nameModels;
     }
 
     @Override
@@ -40,7 +45,7 @@ class AddNamesAdapter extends RecyclerView.Adapter<AddNamesAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return (mNameModels == null) ? 0 : mNameModels.size();
+        return mNameModels.size();
     }
 
     final static class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,12 +61,12 @@ class AddNamesAdapter extends RecyclerView.Adapter<AddNamesAdapter.ViewHolder> {
 
     }
 
-    void addNameModel(NameModel nameModel) {
+    public void addNameModel(NameModel nameModel) {
         mNameModels.add(nameModel);
         notifyDataSetChanged();
     }
 
-    void setNameModels(List<NameModel> nameModels) {
+    public void setNameModels(List<NameModel> nameModels) {
         mNameModels = nameModels;
         notifyDataSetChanged();
     }

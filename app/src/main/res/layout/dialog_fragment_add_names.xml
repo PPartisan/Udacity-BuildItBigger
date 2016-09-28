@@ -18,7 +18,7 @@
         android:text="@string/abdf_title"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-    <com.udacity.gradle.builditbigger.EmptyRecyclerView
+    <com.udacity.gradle.builditbigger.view.EmptyRecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

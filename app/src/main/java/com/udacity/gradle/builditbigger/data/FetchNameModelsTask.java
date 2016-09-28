@@ -1,17 +1,18 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.data;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.udacity.gradle.builditbigger.util.DataUtils;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
-class FetchNameModelsTask extends AsyncTask<Context, Void, ArrayList<NameModel>> {
+public final class FetchNameModelsTask extends AsyncTask<Context, Void, ArrayList<NameModel>> {
 
     private WeakReference<Callbacks> mWeakCallbacks;
 
-    FetchNameModelsTask(WeakReference<Callbacks> weakCallbacks) {
+    public FetchNameModelsTask(WeakReference<Callbacks> weakCallbacks) {
         mWeakCallbacks = weakCallbacks;
     }
 
@@ -27,7 +28,7 @@ class FetchNameModelsTask extends AsyncTask<Context, Void, ArrayList<NameModel>>
         }
     }
 
-    interface Callbacks {
+    public interface Callbacks {
         void onNameModelsReady(ArrayList<NameModel> nameModels);
     }
 

@@ -11,19 +11,21 @@ import com.example.tom.myapplication.jokebackend.myApi.model.JokeWrapper;
 import com.github.ppartisan.jokeviewer.JokeViewActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.udacity.gradle.builditbigger.EndpointsAsyncTask.JokeType;
-import com.udacity.gradle.builditbigger.EndpointsAsyncTask.OnJokeReady;
-import com.udacity.gradle.builditbigger.FetchNameModelsTask.Callbacks;
+import com.udacity.gradle.builditbigger.data.NameModel;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.JokeType;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.OnJokeReady;
+import com.udacity.gradle.builditbigger.data.FetchNameModelsTask;
+import com.udacity.gradle.builditbigger.data.FetchNameModelsTask.Callbacks;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsUtils;
+import com.udacity.gradle.builditbigger.util.AppUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.DOCTOR_DOCTOR_JOKE;
-import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
+import static com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
 
 public class MainActivity extends AppCompatActivity implements OnJokeReady, Callbacks {
-
-    private static final String TEST_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712";
 
     private InterstitialAd mInterstitialAd;
     private EndpointsAsyncTask task = null;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
     private FetchNameModelsTask fetchNameModelsTask = null;
 
     //No option to change joke type on free version
-    private final @JokeType int mJokeType = EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
+    private final @JokeType int mJokeType = KNOCK_KNOCK_JOKE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
         setContentView(R.layout.activity_main);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(TEST_INTERSTITIAL_AD_UNIT_ID);
+        mInterstitialAd.setAdUnitId(DebugKeys.TEST_INTERSTITIAL_AD_UNIT_ID);
         mInterstitialAd.setAdListener(new AdListener());
         mInterstitialAd.loadAd(requestNewInterstitial());
 
@@ -107,6 +109,13 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
         mProgressView.setVisibility(View.GONE);
         task = null;
         startActivity(jokeViewActivityIntent);
+    }
+
+    @Override
+    public void onJokeRetrievalError() {
+        EndpointsUtils.buildRetrievalErrorToast(this).show();
+        mProgressView.setVisibility(View.GONE);
+        task = null;
     }
 
     private void launchEndPointsAsyncTask(@JokeType int jokeType, String... actors) {

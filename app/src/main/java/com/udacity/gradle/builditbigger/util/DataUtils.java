@@ -1,21 +1,24 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.util;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
+
+import com.udacity.gradle.builditbigger.data.NameModel;
+import com.udacity.gradle.builditbigger.data.NamesHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class DataUtils {
 
     private DataUtils() { throw new AssertionError(); }
 
-    static long addNameToDatabase(Context context, NameModel nameModel) {
+    public static long addNameToDatabase(Context context, NameModel nameModel) {
         return addNameToDatabase(context, nameModel.name);
     }
 
-    static long addNameToDatabase(Context context, String name) {
+    public static long addNameToDatabase(Context context, String name) {
         ContentValues cv = new ContentValues(1);
         cv.put(NamesHelper.COLUMN_NAME, name);
         return NamesHelper.getInstance(context).getWritableDatabase().insert(
@@ -23,11 +26,11 @@ public final class DataUtils {
         );
     }
 
-    static int deleteNameFromDatabase(Context context, NameModel nameModel) {
+    public static int deleteNameFromDatabase(Context context, NameModel nameModel) {
         return deleteNameFromDatabase(context, nameModel.id);
     }
 
-    static int deleteNameFromDatabase(Context context, long id) {
+    public static int deleteNameFromDatabase(Context context, long id) {
 
         final String where = NamesHelper.COLUMN_ID + "=?";
         final String[] whereArgs = { String.valueOf(id) };
@@ -38,7 +41,7 @@ public final class DataUtils {
 
     }
 
-    static ArrayList<NameModel> getNameModelsFromDatabase(Context context) {
+    public static @NonNull ArrayList<NameModel> getNameModelsFromDatabase(Context context) {
 
         ArrayList<NameModel> names = null;
 

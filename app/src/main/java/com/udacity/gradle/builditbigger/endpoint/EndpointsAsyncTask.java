@@ -1,4 +1,4 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.endpoint;
 
 import android.os.AsyncTask;
 import android.support.annotation.IntDef;
@@ -13,18 +13,18 @@ import java.util.List;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-class EndpointsAsyncTask extends AsyncTask<String, Void, JokeWrapper> {
+public class EndpointsAsyncTask extends AsyncTask<String, Void, JokeWrapper> {
 
     @Retention(SOURCE)
     @IntDef({DOCTOR_DOCTOR_JOKE, KNOCK_KNOCK_JOKE})
-    @interface JokeType {}
-    static final int DOCTOR_DOCTOR_JOKE = 3050;
-    static final int KNOCK_KNOCK_JOKE = 3051;
+    public @interface JokeType {}
+    public static final int DOCTOR_DOCTOR_JOKE = 3050;
+    public static final int KNOCK_KNOCK_JOKE = 3051;
 
     private final WeakReference<OnJokeReady> mWeakCallback;
     private final @JokeType int mJokeType;
 
-    EndpointsAsyncTask(WeakReference<OnJokeReady> contextWeakReference, @JokeType int jokeType) {
+    public EndpointsAsyncTask(WeakReference<OnJokeReady> contextWeakReference, @JokeType int jokeType) {
         this.mWeakCallback = contextWeakReference;
         mJokeType = jokeType;
     }
@@ -47,7 +47,11 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, JokeWrapper> {
 
     @Override
     protected void onPostExecute(JokeWrapper result) {
-        if (mWeakCallback.get() != null) mWeakCallback.get().onJokeReady(result);
+        if (mWeakCallback.get() != null && result != null) {
+            mWeakCallback.get().onJokeReady(result);
+        } else if (mWeakCallback.get() != null && result == null) {
+            mWeakCallback.get().onJokeRetrievalError();
+        }
     }
 
     private static JokeWrapper getJokeWrapper(@JokeType int type, List<String> actors) throws IOException{
@@ -58,8 +62,9 @@ class EndpointsAsyncTask extends AsyncTask<String, Void, JokeWrapper> {
         }
     }
 
-    interface OnJokeReady {
+    public interface OnJokeReady {
         void onJokeReady(JokeWrapper wrapper);
+        void onJokeRetrievalError();
     }
 
 

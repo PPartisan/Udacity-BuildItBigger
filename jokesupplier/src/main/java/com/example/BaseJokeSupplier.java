@@ -5,17 +5,16 @@ import java.util.Random;
 
 abstract class BaseJokeSupplier implements JokeSupplier {
 
-    private final List<Joke> jokes;
+    private List<Joke> jokes;
     private final Random random;
 
     BaseJokeSupplier() {
-        jokes = buildJokes();
         random = new Random();
     }
 
     @Override
     public Joke getJoke() {
-        return jokes.get(random.nextInt(getJokeCount()));
+        return getJokes().get(random.nextInt(getJokeCount()));
     }
 
     @Override
@@ -25,17 +24,20 @@ abstract class BaseJokeSupplier implements JokeSupplier {
         } else if (index > getJokeCount()) {
             index = getJokeCount() - 1;
         }
-        return jokes.get(index);
+        return getJokes().get(index);
     }
 
     @Override
     public List<Joke> getJokes() {
+        if (jokes == null) {
+            jokes = buildJokes();
+        }
         return jokes;
     }
 
     @Override
     public int getJokeCount() {
-        return jokes.size();
+        return getJokes().size();
     }
 
     abstract List<Joke> buildJokes();

@@ -3,9 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.udacity.gradle.builditbigger.adapter.AddNamesAdapter;
+import com.udacity.gradle.builditbigger.data.NameModel;
+import com.udacity.gradle.builditbigger.util.DataUtils;
+import com.udacity.gradle.builditbigger.view.EmptyRecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AddNamesDialogFragment extends DialogFragment implements View.OnClickListener {
+public final class AddNamesDialogFragment extends DialogFragment implements View.OnClickListener {
 
     public static final String TAG = AddNamesDialogFragment.class.getSimpleName();
     private static final String NAME_MODELS_KEY = "name_models_key";

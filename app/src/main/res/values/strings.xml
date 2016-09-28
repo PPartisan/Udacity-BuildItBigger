@@ -17,4 +17,7 @@
     <string name="andf_list_hint">Add A Custom Name</string>
     <string name="andf_empty_view_text">No names yet!</string>
 
+    <!-- Endpoint -->
+    <string name="endpoint_on_joke_retrieval_error">Unable To Retrieve Joke.</string>
+
 </resources>

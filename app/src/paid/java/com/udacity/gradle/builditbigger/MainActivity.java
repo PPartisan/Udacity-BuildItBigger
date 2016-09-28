@@ -9,15 +9,20 @@ import android.view.View;
 
 import com.example.tom.myapplication.jokebackend.myApi.model.JokeWrapper;
 import com.github.ppartisan.jokeviewer.JokeViewActivity;
-import com.udacity.gradle.builditbigger.EndpointsAsyncTask.JokeType;
-import com.udacity.gradle.builditbigger.EndpointsAsyncTask.OnJokeReady;
-import com.udacity.gradle.builditbigger.FetchNameModelsTask.Callbacks;
+import com.udacity.gradle.builditbigger.data.FetchNameModelsTask;
+import com.udacity.gradle.builditbigger.data.FetchNameModelsTask.Callbacks;
+import com.udacity.gradle.builditbigger.data.NameModel;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.JokeType;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.OnJokeReady;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsUtils;
+import com.udacity.gradle.builditbigger.util.AppUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.DOCTOR_DOCTOR_JOKE;
-import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
+import static com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.DOCTOR_DOCTOR_JOKE;
+import static com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
 
 public class MainActivity extends AppCompatActivity implements OnJokeReady, Callbacks {
 
@@ -30,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
     private AddNamesDialogFragment mAddNamesDialog;
 
     private static final String JOKE_TYPE_KEY = "joke_type_key";
-    private @JokeType int mJokeType = EndpointsAsyncTask.KNOCK_KNOCK_JOKE;
+    private @JokeType
+    int mJokeType = KNOCK_KNOCK_JOKE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +113,13 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
         mProgressView.setVisibility(View.GONE);
         endpointsAsyncTask = null;
         startActivity(jokeViewActivityIntent);
+    }
+
+    @Override
+    public void onJokeRetrievalError() {
+        EndpointsUtils.buildRetrievalErrorToast(this).show();
+        mProgressView.setVisibility(View.GONE);
+        endpointsAsyncTask = null;
     }
 
     private void launchEndPointsAsyncTask(@JokeType int jokeType, String... actors) {

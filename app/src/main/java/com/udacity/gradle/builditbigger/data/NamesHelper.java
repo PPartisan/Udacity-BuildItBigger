@@ -1,22 +1,22 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class NamesHelper extends SQLiteOpenHelper {
+public final class NamesHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "names.db";
 
     private static final int SCHEMA = 1;
 
-    static final String TABLE_NAME = "names";
-    static final String COLUMN_ID = "_id";
-    static final String COLUMN_NAME = "name";
+    public static final String TABLE_NAME = "names";
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_NAME = "name";
 
     private static NamesHelper sInstance = null;
 
-    static synchronized NamesHelper getInstance(Context context) {
+    public static synchronized NamesHelper getInstance(Context context) {
         if (sInstance == null) {
             sInstance = new NamesHelper(context.getApplicationContext());
         }

@@ -1,11 +1,11 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
 
-public final class NameModel implements Parcelable{
+public final class NameModel implements Parcelable {
 
     public final long id;
     public final String name;
@@ -43,7 +43,7 @@ public final class NameModel implements Parcelable{
         }
     };
 
-    static String[] namesToStringArray(List<NameModel> models) {
+    public static String[] namesToStringArray(List<NameModel> models) {
 
         final String[] namesArray = new String[models.size()];
 

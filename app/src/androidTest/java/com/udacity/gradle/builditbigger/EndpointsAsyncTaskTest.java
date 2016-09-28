@@ -2,8 +2,10 @@ package com.udacity.gradle.builditbigger;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.tom.myapplication.jokebackend.myApi.model.JokeWrapper;
+import com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -14,10 +16,12 @@ import org.junit.runner.RunWith;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.CountDownLatch;
 
-import static com.udacity.gradle.builditbigger.EndpointsAsyncTask.*;
+import static com.udacity.gradle.builditbigger.endpoint.EndpointsAsyncTask.*;
 
 @RunWith(AndroidJUnit4.class)
 public class EndpointsAsyncTaskTest {
+
+    private static final String TAG = EndpointsAsyncTaskTest.class.getSimpleName();
 
     private CountDownLatch signal = null;
     private JokeWrapper wrapper = null;
@@ -34,6 +38,12 @@ public class EndpointsAsyncTaskTest {
             @Override
             public void onJokeReady(JokeWrapper wrapper) {
                 EndpointsAsyncTaskTest.this.wrapper = wrapper;
+                EndpointsAsyncTaskTest.this.signal.countDown();
+            }
+
+            @Override
+            public void onJokeRetrievalError() {
+                Log.e(TAG, "Wrapper null. Occurs when not connected to network");
                 EndpointsAsyncTaskTest.this.signal.countDown();
             }
         };

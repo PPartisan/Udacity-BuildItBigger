@@ -7,8 +7,8 @@ public final class JokeUtils {
     private JokeUtils() { throw new AssertionError(); }
 
     public static String toParagraphWithActors(Joke joke) {
-        return  toParagraphWithActors(joke, joke.getActorNames());
-    };
+        return toParagraphWithActors(joke, joke.getActorNames());
+    }
 
     public static String toParagraphWithActors(Joke joke, String... actors) {
 
