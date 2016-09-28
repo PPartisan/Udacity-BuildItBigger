@@ -43,7 +43,7 @@ public class EndpointsAsyncTaskTest {
 
             @Override
             public void onJokeRetrievalError() {
-                Log.e(TAG, "Wrapper null. Occurs when not connected to network");
+                Log.e(TAG, "Wrapper null. Occurs when not connected to network.");
                 EndpointsAsyncTaskTest.this.signal.countDown();
             }
         };

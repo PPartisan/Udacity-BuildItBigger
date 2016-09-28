@@ -127,9 +127,12 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
     }
 
     private AdRequest requestNewInterstitial() {
-        return new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
+        AdRequest.Builder builder = new AdRequest.Builder();
+        builder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+        if (!DebugKeys.EXTRA_TEST_DEVICE_ID.equals("null")) {
+            builder.addTestDevice(DebugKeys.EXTRA_TEST_DEVICE_ID);
+        }
+        return builder.build();
     }
 
     @Override
