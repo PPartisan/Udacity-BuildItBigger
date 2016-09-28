@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements OnJokeReady, Call
         setContentView(R.layout.activity_main);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(DebugKeys.TEST_INTERSTITIAL_AD_UNIT_ID);
+        mInterstitialAd.setAdUnitId(getString(R.string.banner_ad_unit_id));
         mInterstitialAd.setAdListener(new AdListener());
         mInterstitialAd.loadAd(requestNewInterstitial());
 
